@@ -1,0 +1,12 @@
+.modal {
+  background-color: rgba(29, 23, 26, 0.726);
+}
+
+.modal {
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.modal.open {
+  opacity: 1;
+}

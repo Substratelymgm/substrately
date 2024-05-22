@@ -1,0 +1,4 @@
+/* Example CSS to ensure no focus outlines cause blinking */
+div:focus {
+    outline: none;
+}
