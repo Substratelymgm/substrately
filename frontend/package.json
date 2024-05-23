@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.12.1",
     "@types/react-leaflet": "^3.0.0",
+    "axios": "^1.7.2",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.2.4",
     "lucide-react": "^0.378.0",

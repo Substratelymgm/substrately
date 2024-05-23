@@ -40,20 +40,64 @@ import Faqs from './Pages/Faqs/Faqs';
 import AboutUs from './Pages/AboutUs/AboutUs';
 import Login from './Pages/Login/Login';
 import SignUp from './Pages/SignUp/SignUp';
+import { AiOutlinePlus } from 'react-icons/ai';
+import ChatBox from './components/ChatBox/ChatBox';
+import { useRef } from 'react';
+import Modal from './components/Modal/Modal';
+
+const MainLayout: React.FC = () => {
+  const [chatBoxActive, setChatBoxActive] = useState<boolean>(false);
+  const chatBoxRef = useRef<HTMLDivElement | null>(null);
+
+  const toggleChatBox = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    setChatBoxActive((prev) => !prev);
+  };
+
+  // const handleClickOutside = (event: MouseEvent) => {
+  //   if (chatBoxRef.current && !chatBoxRef.current.contains(event.target as Node)) {
+  //     setChatBoxActive(false);
+  //   }
+  // };
 
 
-// Main layout component
-const MainLayout = () => {
+
   return (
-    <div className='w-full h-screen overflow-y-auto relative'>
-      <Navbar />
-      <div className="w-full ">
-        <Outlet />
+
+    <>
+      <Modal isOpen={chatBoxActive} onClose={() => setChatBoxActive(!chatBoxActive)}>
+          {chatBoxActive && (
+            <div
+              ref={chatBoxRef}
+              onClick={(event) => event.stopPropagation()}
+              className='w-full p-[2rem]'
+            >
+              <ChatBox />
+            </div>
+          )}
+      </Modal>
+
+
+      <div className='w-full h-screen overflow-y-auto relative'>
+
+
+        <div
+          className='rounded-full w-[4rem] h-[4rem] flex text-white items-center justify-center z-[9999900] fixed cursor-pointer bottom-[2rem] right-[2rem] bg-blue-500'
+          onClick={toggleChatBox}
+        >
+          <AiOutlinePlus />
+        </div>
+        <Navbar />
+        <div className="w-full">
+          <Outlet />
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </>
   );
 };
+
+
 
 
 // Dashboard layout component

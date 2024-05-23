@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import StarLogo from '../../assets/star-logo.svg'
 import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const SignUp: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -28,22 +29,29 @@ const SignUp: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50  px-4 sm:px-6 lg:px-8">
-        <div className='h-[4rem] flex items-center w-full '>
-        <Link to='/' className='font-[700] flex gap-[.3rem] text-[28px] text-[#009F95]'>
-                    <span>Subtrately</span>
-                    <img src={StarLogo} alt="" />
-                </Link>
-        </div>
+      <div className='h-[4rem] flex items-center justify-between w-full '>
+        <Link to='/' className='font-[700] flex  gap-[.3rem] text-[28px] text-[#009F95]'>
+          <span>Subtrately</span>
+          <img src={StarLogo} alt="" />
+        </Link>
+        <NavLink
+          to='/'
+          className={({ isActive }) =>
+            `text-[#4B5162] font-[400] cursor-pointer hover:underline duration-300 ${isActive ? 'text-blue-500' : 'text-[#4B5162]'}`
+          }
+        >
+        </NavLink>
+      </div>
       <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-[2rem] font-[600] text-center text-3xl font-extrabold text-gray-900">Sign up to Substrately</h2>
-            <h3 className='text-center mt-[1rem] text-[#5D6B78]'>
-              Let us know you better
-            </h3>
+          <h2 className="mt-6 font-[600] text-center text-2xl sm:text-3xl font-extrabold text-gray-900">Sign up to Substrately</h2>
+          <h3 className='text-center mt-[1rem] text-[#5D6B78]'>
+            Let us know you better
+          </h3>
         </div>
         <form className="mt-8 flex flex-col gap-[1rem]" onSubmit={handleSubmit}>
           <input type="hidden" name="remember" defaultValue="true" />
-          
+
           <div className=" flex flex-col gap-[1rem] shadow-sm ">
             <div>
               <label htmlFor="companyName" className="sr-only">Company Name</label>
@@ -53,7 +61,7 @@ const SignUp: React.FC = () => {
                 type="text"
                 autoComplete="companyName"
                 required
-                className="w-full bg-[#E0E0E0]  p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
+                className="w-full bg-gray-100  p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
                 placeholder="Company Name"
                 value={formData.companyName}
                 onChange={handleChange}
@@ -68,7 +76,7 @@ const SignUp: React.FC = () => {
                 type="email"
                 autoComplete="email"
                 required
-                className="w-full bg-[#E0E0E0]  p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
+                className="w-full bg-gray-100  p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
                 placeholder="Email address"
                 value={formData.emailAddress}
                 onChange={handleChange}
@@ -82,7 +90,7 @@ const SignUp: React.FC = () => {
                 type="text"
                 autoComplete="companySize"
                 required
-                className="w-full bg-[#E0E0E0]  p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
+                className="w-full bg-gray-100  p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
                 placeholder="Company Size"
                 value={formData.companySize}
                 onChange={handleChange}
@@ -96,7 +104,7 @@ const SignUp: React.FC = () => {
                 type="text"
                 autoComplete="fullName"
                 required
-                className="w-full bg-[#E0E0E0]  p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
+                className="w-full bg-gray-100  p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
                 placeholder="Full Name"
                 value={formData.fullName}
                 onChange={handleChange}
@@ -110,7 +118,7 @@ const SignUp: React.FC = () => {
                 type="text"
                 autoComplete="lastName"
                 required
-                className="w-full bg-[#E0E0E0]  p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
+                className="w-full bg-gray-100  p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
                 placeholder="Last Name"
                 value={formData.lastName}
                 onChange={handleChange}
@@ -124,7 +132,7 @@ const SignUp: React.FC = () => {
                 type="tel"
                 autoComplete="tel"
                 required
-                className="w-full bg-[#E0E0E0]  p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
+                className="w-full bg-gray-100  p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
                 placeholder="Phone Number"
                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 value={formData.phoneNumber}
@@ -139,7 +147,7 @@ const SignUp: React.FC = () => {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="w-full bg-[#E0E0E0]  p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
+                className="w-full bg-gray-100  p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
                 placeholder="Password"
                 value={formData.createPassword}
                 onChange={handleChange}
@@ -157,8 +165,8 @@ const SignUp: React.FC = () => {
           </div>
 
           <div className="text-center mt-[1rem] mb-[4rem] text-sm ">
-          <p>Already have a account? <Link to="/login" className="font-medium text-[#009F95] text-indigo-600 hover:text-indigo-500">Login</Link></p>
-        </div>
+            <p>Already have a account? <Link to="/login" className="font-medium text-[#009F95] text-indigo-600 hover:text-indigo-500">Login</Link></p>
+          </div>
         </form>
       </div>
     </div>

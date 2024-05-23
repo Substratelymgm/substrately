@@ -61,7 +61,7 @@ const ContactUs = () => {
 
 
     <section className='w-full p-4 bg-center bg-cover relative'>
-  <div className="w-full flex flex-col items-center justify-center h-[400px] bg-cover max-w-[1300px] mx-auto bg-center">
+  <div className="w-full flex min-h-[calc(100vh-93px)] flex-col items-center justify-center  bg-cover max-w-[1300px] mx-auto bg-center">
     <div className="relative z-10 p-8 text-center">
       <h1 className="text-4xl md:text-[64px]  font-bold mb-4">Contact Us</h1>
       <span className="block mb-8 text-gray-600 text-sm md:text-base lg:text-lg">

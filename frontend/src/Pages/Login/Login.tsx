@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import StarLogo from '../../assets/star-logo.svg';
+import { NavLink } from 'react-router-dom';
+
+
 
 const Login: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -23,16 +26,24 @@ const Login: React.FC = () => {
 
     return (
         <div className="min-h-screen  bg-gray-50 px-4 sm:px-6 lg:px-8">
-            <div className="h-20 flex items-center w-full">
+            <div className="h-20 flex items-center justify-between w-full">
                 <Link to='/' className='font-[700] flex gap-[.3rem] text-[28px] text-[#009F95]'>
                     <span>Subtrately</span>
                     <img src={StarLogo} alt="" />
                 </Link>
+                <NavLink
+                to='/'
+                className={({ isActive }) =>
+                  `text-[#4B5162] font-[400] cursor-pointer hover:underline duration-300 ${isActive ? 'text-blue-500' : 'text-[#4B5162]'}`
+                }
+              >
+                
+              </NavLink>
             </div>
 
             <div className="max-w-md mt-[4rem] flex flex-col mx-auto items-center w-full space-y-8">
                 <div>
-                    <h2 className="mt-6 text-3xl font-bold text-gray-900 text-center">Sign in to your account</h2>
+                    <h2 className="mt-6 text-2xl sm:text-3xl font-bold text-gray-900 text-center">Sign in to your account</h2>
                     <div className='text-center mt-[1rem]'>
                         Welcome,enter your details
                     </div>
@@ -48,7 +59,7 @@ const Login: React.FC = () => {
                                 type="email"
                                 autoComplete="email"
                                 required
-                                className="appearance-none h-[60px] bg-gray-200 rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:z-10 sm:text-sm"
+                                className="w-full bg-gray-100  p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
                                 placeholder="Email address"
                                 value={formData.email}
                                 onChange={handleChange}
@@ -62,7 +73,7 @@ const Login: React.FC = () => {
                                 type="password"
                                 autoComplete="current-password"
                                 required
-                                className="appearance-none h-[60px] bg-gray-200 rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:z-10 sm:text-sm"
+                                className="w-full bg-gray-100  p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
                                 placeholder="Password"
                                 value={formData.password}
                                 onChange={handleChange}

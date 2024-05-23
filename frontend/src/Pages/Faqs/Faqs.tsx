@@ -37,7 +37,7 @@ const Faqs: React.FC = () => {
       <section className='w-full p-4 bg-center bg-cover relative'>
         <div className="w-full flex flex-col items-center justify-center min-h-[calc(100vh-93px)] bg-cover max-w-[1211px] mx-auto bg-center">
           <div className="relative w-full z-10 p-[2rem] text-center">
-            <h1 className="text-[48px] font-bold mb-[1rem]">Frequently asked questions</h1>
+            <h1 className="text-[32px] sm:text-[48px] font-bold mb-[1rem]">Frequently asked questions</h1>
             <span className="block mb-[2rem]">
               Discover all the common questions we encounter at Substrately relating
               <p>to who we are and the climate solutions we provide.</p>
@@ -47,7 +47,7 @@ const Faqs: React.FC = () => {
               {questions.map((question, index) => (
                 <div key={index} className=' pb-2'>
                   <div className='flex justify-between items-center cursor-pointer' onClick={() => toggleExpand(index)}>
-                    <h2 className='text-[32px] font-[600]'>{question}</h2>
+                    <h2 className='text-[28px] text-start sm:text-[32px] font-[600]'>{question}</h2>
                     {expanded === index ? <AiOutlineMinus size={12} /> : <AiOutlinePlus size={12} />}
                   </div>
                   {expanded === index && (
@@ -70,8 +70,8 @@ const Faqs: React.FC = () => {
       <section className='w-full  p-4  '>
         <div className="w-full min-h-[calc(100vh-93px)] rounded-xl flex items-center bg-[#002624] justify-center bg-cover max-w-[1300px] mx-auto bg-center " >
           <div className="relative z-10 p-[2rem] text-center text-white">
-            <h1 className="text-[28px] font-bold text-[3rem] mb-[1rem]">Unlock the power of climate risk forecasting with substrately</h1>
-            <span className="block mb-[2rem] text-[2rem] text-[#C3C3C3]">
+            <h1 className="text-[28px] font-bold sm:text-[3rem] mb-[1rem]">Unlock the power of climate risk forecasting with substrately</h1>
+            <span className="block mb-[2rem] text-base text-[2rem] text-[#C3C3C3]">
             Contact us today to learn more and schedule a demo
             </span>
             <RequestDemoButton />

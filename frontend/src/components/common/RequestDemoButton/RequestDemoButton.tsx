@@ -104,15 +104,15 @@ const RequestDemoButton = () => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className='col-span-2 flex items-start'>
+                        <div className='col-span-2  flex items-start'>
                             <input
                                 type="checkbox"
                                 id="agreeTerms"
                                 checked={agreeTerms}
                                 onChange={handleCheckboxChange}
-                                className="mr-2"
+                                className="mr-2 mt-1"
                             />
-                            <label className="text-black" htmlFor="agreeTerms">I agree to Substrately’s <Link to='/terms-of-service' className="font-[700] cursor-pointer hover:underline text-black">terms of service and privacy policy</Link></label>
+                            <label className="text-black h-full" htmlFor="agreeTerms">I agree to Substrately’s <Link to='/terms-of-service' className="font-[700] cursor-pointer hover:underline text-black">terms of service and privacy policy</Link></label>
                         </div>
                         <div className='col-span-2 flex items-center justify-left'>
                             <button

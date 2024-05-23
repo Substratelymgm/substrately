@@ -43,7 +43,7 @@ const Navbar = () => {
 
   return (
     <div className={`border-b navbar sticky top-0 z-[900] h-[93px] flex items-center transition-colors duration-300 ${scrolled ? 'bg-gray-900' : 'bg-white'}`}>
-      <div className="w-full flex items-center justify-between sm:justify-start gap-[2rem] p-[1rem] max-w-[1300px] mx-auto">
+      <div className="w-full flex items-center justify-between md:justify-start gap-[2rem] p-[1rem] max-w-[1300px] mx-auto">
         <NavLink to='/' className='font-[700] flex gap-[.3rem] text-[28px] text-[#009F95]'>
           <span>Subtrately</span>
           <img src={StarLogo} alt="Star Logo" />
@@ -51,7 +51,7 @@ const Navbar = () => {
         <button onClick={toggleMenu} className="md:hidden text-[#009F95]">
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-        <div className='hidden flex-1 md:flex items-center justify-between gap-[1rem]'>
+        <div className='hidden flex-1 md:flex items-center justify-end lg:gap-[2rem] '>
           <div className='flex items-center gap-[1rem]'>
             {navLinks.map(({ to, text }) => (
               <NavLink
@@ -65,7 +65,7 @@ const Navbar = () => {
               </NavLink>
             ))}
           </div>
-          <div className='flex gap-[1rem]'>
+          <div className='flex gap-[.2rem] lg:gap-[.5rem] '>
             <NavLink to='signup' className='px-[1rem] duration-300 text-[#009F95] hover:text-white rounded-md hover:bg-[#007F75] py-[.3rem]'>Sign Up</NavLink>
             <NavLink to='login' className='px-[1rem] duration-300 rounded-md hover:bg-[#003F95] py-[.3rem] bg-[#009F95] hover:bg-[#007F75] text-white'>Login</NavLink>
           </div>
