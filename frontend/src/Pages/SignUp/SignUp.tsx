@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import StarLogo from '../../assets/star-logo.svg'
 import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const SignUp: React.FC = () => {
   const [formData, setFormData] = useState({

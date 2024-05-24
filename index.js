@@ -3,17 +3,18 @@ const express = require('express');
 const cors = require('cors');
 const errorHandler = require('./middleware/errorHandler');
 const connectDB = require('./db/db');
+const port = process.env.PORT || 4000;
+const path = require('path')
 
 const app = express();
 
 
-const port = process.env.PORT || 4000;
 
 const allowedOrigins = ['https://bingo-samp-2.vercel.app', `http://localhost:5173`];
 
 const corsOptions = {
   origin: function (origin, callback) {
-       console.log(origin)
+    console.log(origin)
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
@@ -33,7 +34,7 @@ app.use(express.json());
 const articleRoutes = require('./routes/article');
 const authRoutes = require('./routes/auth');
 const bookRoutes = require('./routes/book')
-const  collaboratorRoutes = require('./routes/collaborator')
+const collaboratorRoutes = require('./routes/collaborator')
 const followerRoutes = require('./routes/follower')
 const linkNotificationRoutes = require('./routes/linkNotification')
 const noteRoutes = require('./routes/note')
@@ -59,7 +60,15 @@ app.use(errorHandler);
 
 connectDB(process.env.MONGO_URL);
 
+
+//production script
+app.use(express.static('./frontend/build'))
+app.get("*", () => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"))
+})
+
+
 app.listen(port, (error) => {
-  if(error) throw error
+  if (error) throw error
   console.log(`Server is running on port ${port}`);
 });
