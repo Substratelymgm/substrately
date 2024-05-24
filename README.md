@@ -1,3 +1,3 @@
 # Substrately
-## Cimate👍🗯💭
+## Climate👍🗯💭
 
