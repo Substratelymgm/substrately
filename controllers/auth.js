@@ -1,32 +1,29 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const { createAccessToken, createRefreshToken, sendAccessToken, sendRefreshToken } = require('../utils/token');
-const { validatePassword } = require('../utils/functions')
+const { createAccessToken, createRefreshToken,generateResetToken, sendAccessToken, sendRefreshToken,sendResetToken } = require('../utils/token');
 const axios = require('axios')
 
-
-// Register user
 const register = async (req, res, next) => {
-    const { name, email, password, confirmPassword,avatar } = req.body;
-
-    if (!name || !email || !password || !confirmPassword) {
-        return next({ message: 'All fields are required' });
-    }
-
-    validatePassword(password, next)
-
-    if (password !== confirmPassword) {
-        return next({ message: "Passwords don't match" });
-    }
+    const { firstName, lastName, phoneNumber, email, password, confirmPassword } = req.body;
 
     try {
         const existEmail = await User.findOne({ email });
-        if (existEmail) return next({ message: 'An account with this email exists' });
+        if (existEmail) return next({
+            message: [{
+                msg: 'A user with with email exist',
+                path: 'error'
+            }]
+        });
 
-        const user = new User({ name, email, password });
+        const user = new User({
+            firstName,
+            lastName,
+            phoneNumber,
+            email,
+            password
+        });
 
         await user.save();
-
 
         const accessToken = createAccessToken(user.id);
         const refreshToken = createRefreshToken(user.id);
@@ -38,34 +35,48 @@ const register = async (req, res, next) => {
 
         sendAccessToken(res, accessToken, others);
     } catch (error) {
-        console.log(error)
-        next({ message: 'Internal Server error' });
+        console.log(error);
+        next({
+            message: [{
+                msg: 'Internal Server error',
+                path: 'error'
+            }]
+        });
     }
 };
-
 
 // Login user
 const login = async (req, res, next) => {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-        return next({ message: 'All fields are required' });
-    }
-
     try {
         const user = await User.findOne({ email });
 
-
-        if (!user) return next({ message: 'Invalid credentials' });
-
+        if (!user) return next({
+            message: [{
+                msg: 'Invalid credentials',
+                path: 'error'
+            }]
+        });
+        
         if (user.signupMethod === 'google') {
-            return next({ status: 400, message: 'Please log in using Google' });
+            return next({
+                status: 400,
+                message: [{
+                    msg: 'Please log in using Google',
+                    path: 'error'
+                }]
+            });
         }
 
         const match = await user.isMatch(password);
 
-
-        if (!match) return next({ message: 'Invalid credentials' });
+        if (!match) return next({
+            message: [{
+                msg: 'Invalid credentials',
+                path: 'error'
+            }]
+        });
 
         const accessToken = createAccessToken(user.id);
         const refreshToken = createRefreshToken(user.id);
@@ -74,12 +85,106 @@ const login = async (req, res, next) => {
 
         sendRefreshToken(res, refreshToken);
         const { password: userPassword, refreshtoken: reftoken, __v, ...others } = user._doc;
+
         sendAccessToken(res, accessToken, others);
     } catch (error) {
-        next({ message: 'Internal server error' })
+        next({
+            message: [{
+                msg: 'Internal Server error',
+                path: 'error'
+            }]
+        });
     }
 };
 
+const requestPasswordReset = async (req, res, next) => {
+    const { email } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return next({
+                message: [{
+                    msg: 'User not found',
+                    path: 'error'
+                }]
+            });
+        }
+
+        const resetToken = generateResetToken()
+        user.resetToken = resetToken;
+        user.resetTokenExpiry = Date.now() + 60000;
+
+        await user.save();
+        await sendResetToken(email, resetToken,next);
+        res.json({ message: 'Reset token sent to email' });
+    } catch (error) {
+        next({
+            message: [{
+                msg: 'Internal Server error',
+                path: 'error'
+            }]
+        });
+    }
+};
+
+
+const verifyResetToken = async (req, res, next) => {
+    const { email, token } = req.body;
+    console.log(token,email)
+    try {
+        const user = await User.findOne({ email, resetToken: token, resetTokenExpiry: { $gt: Date.now() } });
+        if (!user) {
+            return next({
+                message: [{
+                    msg: 'Invalid or expired token',
+                    path: 'error'
+                }]
+            });
+        }
+
+        res.json({ message: 'Token verified' });
+    } catch (error) {
+        console.log(error);
+        next({
+            message: [{
+                msg: 'Internal Server error',
+                path: 'error'
+            }]
+        });
+    }
+};
+
+const resetPassword = async (req, res, next) => {
+    const { email, token, newPassword } = req.body;
+
+    try {
+        const user = await User.findOne({ email, resetToken: token, resetTokenExpiry: { $gt: Date.now() } });
+        if (!user) {
+            return next({
+                message: [{
+                    msg: 'Invalid or expired token',
+                    path: 'error'
+                }]
+            });
+        }
+
+        user.password = newPassword;
+        user.resetToken = undefined;
+        user.resetTokenExpiry = undefined;
+
+        await user.save();
+        res.json({ message: 'Password reset successful' });
+    } catch (error) {
+        console.log(error);
+        next({
+            message: [{
+                msg: 'Internal Server error',
+                path: 'error'
+            }]
+        });
+    }
+};
 
 
 // Logout user
@@ -160,10 +265,10 @@ const googleRegister = async (req, res, next) => {
         }
 
         let user = await User.findOne({ email });
-        
+
         if (!user) {
-        user = new User({ name, email, signupMethod:'google' }); 
-        await user.save();
+            user = new User({ name, email, signupMethod: 'google' });
+            await user.save();
         }
 
 
@@ -171,7 +276,7 @@ const googleRegister = async (req, res, next) => {
         const refreshToken = createRefreshToken(user.id);
 
         await user.updateOne({ refreshtoken: refreshToken });
-    
+
 
         sendRefreshToken(res, refreshToken);
         const { __v, refreshToken: userRefreshToken, ...others } = user._doc;
@@ -183,7 +288,7 @@ const googleRegister = async (req, res, next) => {
     }
 };
 
- 
+
 
 const googleLogin = async (req, res, next) => {
     const { code } = req.body;
@@ -191,7 +296,7 @@ const googleLogin = async (req, res, next) => {
     if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET || !process.env.GOOGLE_REDIRECT_URI || !code) {
         return next({ message: 'Server misconfiguration' });
     }
-    
+
     try {
         const tokenResponse = await axios.post('https://oauth2.googleapis.com/token', {
             code,
@@ -213,7 +318,7 @@ const googleLogin = async (req, res, next) => {
         }
 
         let user = await User.findOne({ email });
-        
+
         if (!user) return next({ message: 'Please register to log in' });
 
 
@@ -221,7 +326,7 @@ const googleLogin = async (req, res, next) => {
         const refreshToken = createRefreshToken(user.id);
 
         await user.updateOne({ refreshtoken: refreshToken });
-    
+
 
         sendRefreshToken(res, refreshToken);
         const { __v, refreshToken: userRefreshToken, ...others } = user._doc;
@@ -246,10 +351,10 @@ const facebookAuth = async (req, res, next) => {
         }
 
         let user = await User.findOne({ email });
-        
+
         if (!user) {
-        user = new User({ name, email }); 
-        await user.save();
+            user = new User({ name, email });
+            await user.save();
         }
 
 
@@ -257,7 +362,7 @@ const facebookAuth = async (req, res, next) => {
         const refreshToken = createRefreshToken(user.id);
 
         await user.updateOne({ refreshtoken: refreshToken });
-    
+
 
         sendRefreshToken(res, refreshToken);
         const { __v, refreshToken: userRefreshToken, ...others } = user._doc;
@@ -276,5 +381,8 @@ module.exports = {
     refreshToken,
     googleRegister,
     googleLogin,
-    facebookAuth
+    facebookAuth,
+    verifyResetToken,
+    requestPasswordReset,
+    resetPassword
 };

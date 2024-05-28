@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import StarLogo from '../../assets/star-logo.svg';
+import { useAppSelector } from '../../app/hooks';
 
 const sidebarVariants = {
   open: { x: 0 },
@@ -12,6 +13,8 @@ const sidebarVariants = {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const {user} = useAppSelector(state=>state.auth)
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -94,8 +97,13 @@ const Navbar = () => {
               {text}
             </NavLink>
           ))}
-          <NavLink to='signup' className='px-[1rem] text-[#009F95] hover:text-white rounded-md hover:bg-[#003F95] py-[.3rem] mb-2'>Sign Up</NavLink>
-          <NavLink to='login' className='px-[1rem] rounded-md hover:bg-[#003F95] py-[.3rem] bg-[#009F95] text-white mb-2'>Login</NavLink>
+        {
+          user.accesstoken ?  <NavLink to='dasboard' className='px-[1rem] rounded-md hover:bg-[#003F95] py-[.3rem] bg-[#009F95] text-white mb-2'>Dashboard</NavLink>
+        : <>
+           <NavLink to='signup' className='px-[1rem] text-[#009F95] hover:text-white rounded-md hover:bg-[#003F95] py-[.3rem] mb-2'>Sign Up</NavLink>
+        <NavLink to='login' className='px-[1rem] rounded-md hover:bg-[#003F95] py-[.3rem] bg-[#009F95] text-white mb-2'>Login</NavLink>
+        </>
+        }
         </div>
       </motion.div>
     </div>

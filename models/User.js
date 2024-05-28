@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
+
 
 const UserSchema = new Schema({
     firstName: {
@@ -10,13 +12,10 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
-    userName: {
+    phoneNumber: {
         type: String,
         required: true,
-    },
-    avatar: {
-        type: String,
-        required: true,
+        match: /^[0-9\s-()]{7,15}$/,
     },
     email: {
         type: String,
@@ -25,26 +24,21 @@ const UserSchema = new Schema({
     },
     password: {
         type: String,
-        required: true,
+        required: false,
     },
-    country: {
-        type: String,
-        required: true,
-    },
-    countryCode: {
+    avatar: {
         type: String,
         required: false,
-        unique: true,
     },
     role: {
         type: String,
         default: "user",
         enum: ['user', 'admin', 'superadmin'],
     },
-    level: {
-        type: String,
-        enum: ['basic', 'pro', 'business'],
-        default: 'basic',
+    payed: {
+        type: Boolean,
+        required: false,
+        default: false,
     },
     signupMethod: {
         type: String,
@@ -53,20 +47,28 @@ const UserSchema = new Schema({
         default: 'traditional',
     },
     refreshtoken: {},
-    canReceiveJoinRequestForWorkSpace: {
-        type: Boolean,
-        default: false,
-    },
-    canReceiveLinkRequestForNote: {
-        type: Boolean,
-        default: false,
-    },
-    canReceiveLinkRequestForArticle: {
-        type: Boolean,
-        default: false,
-    },
+    resetToken:String,
+    resetTokenExpiry: Date,
+
 }, {
     timestamps: true,
 });
+
+
+UserSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) return next();
+    try {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
+        next();
+    } catch (err) {
+        next(err);
+    }
+});
+
+
+UserSchema.methods.isMatch = async function (password) {
+    return await bcrypt.compare(password, this.password);
+};
 
 module.exports = mongoose.model('User', UserSchema);
