@@ -4,8 +4,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { logout } from '../../app/store/auth/thunk';
 import { useAppDispatch } from '../../app/hooks';
 
-
-const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 
 const Payment = () => {
 
