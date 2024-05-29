@@ -46,7 +46,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import ChatBox from './components/ChatBox/ChatBox';
 import { useRef } from 'react';
 import Modal from './components/Modal/Modal';
-import { useAppSelector,useAppDispatch } from './app/hooks';
+import { useAppDispatch } from './app/hooks';
 import { refresh } from './app/store/auth/thunk';
 import Payment from './Pages/Payment/Payment';
 import ForgotPassoword from './Pages/ForgotPassword/ForgotPassword';
@@ -110,7 +110,6 @@ const LandingPageLayout: React.FC = () => {
 
 // Dashboard layout component
 const MainLayout = ({ toggleSidebar, isSidebarVisible }: { toggleSidebar: () => void, isSidebarVisible: boolean }) => {
-  const {user} = useAppSelector(state=>state.auth)
 
   return (
     false?  <div className='w-full custom-scrollbar h-screen overflow-hidden flex'>
@@ -131,9 +130,7 @@ const MainLayout = ({ toggleSidebar, isSidebarVisible }: { toggleSidebar: () => 
 
 function App() {
   const [isSidebarVisible, setSidebarVisible] = useState(false);
-  const {user} = useAppSelector(state=>state.auth)
 
-  console.log(user)
 
   const dispatch = useAppDispatch()
 
