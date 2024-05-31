@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs'); // Replace bcrypt with bcryptjs
 const Schema = mongoose.Schema;
-
 
 const UserSchema = new Schema({
     firstName: {
@@ -47,13 +46,11 @@ const UserSchema = new Schema({
         default: 'traditional',
     },
     refreshtoken: {},
-    resetToken:String,
+    resetToken: String,
     resetTokenExpiry: Date,
-
 }, {
     timestamps: true,
 });
-
 
 UserSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
@@ -65,7 +62,6 @@ UserSchema.pre('save', async function (next) {
         next(err);
     }
 });
-
 
 UserSchema.methods.isMatch = async function (password) {
     return await bcrypt.compare(password, this.password);
