@@ -20,19 +20,24 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
+// Connect to database
+connectDB(process.env.MONGO_URL);
+
+// API Routes
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 
+// Error handling middleware
 app.use(errorHandler);
 
-connectDB(process.env.MONGO_URL);
-
-
+// Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client', 'build')));
-app.get(/^(?!\/api).*/, (req, res) => {
+
+// Catch-all route to serve the React app
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
 
