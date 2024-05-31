@@ -10,7 +10,7 @@ const app = express();
 
 // Enable CORS for all origins
 const corsOptions = {
-  origin: true, // Allow all origins
+  origin: true,
   optionsSuccessStatus: 200,
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
