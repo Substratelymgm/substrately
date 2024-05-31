@@ -29,13 +29,13 @@ connectDB(process.env.MONGO_URL);
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 
-app.use('/api/auth', authRoutes);
-app.use('/api/user', userRoutes);
+app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
 
 // Error handling middleware
 app.use(errorHandler);
 
-app.get('/api/test', (req, res) => {
+app.get('/test', (req, res) => {
   res.send('Hello from the minimal route!');
 });
 
