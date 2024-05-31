@@ -29,8 +29,8 @@ connectDB(process.env.MONGO_URL);
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 
-app.use('/auth', authRoutes);
-app.use('/user', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
 
 // Error handling middleware
 app.use(errorHandler);
