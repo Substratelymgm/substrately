@@ -27,7 +27,7 @@ const HomePage: React.FC = () => {
                         </span>
                         <div>
                             <p className='flex font-[700] text-[2.5rem] md:text-[3rem] lg:text-[4rem] flex-col'>
-                                <span className='lg:whitespace-nowrap'><span className='text-[#009F95]'>Cli`mate</span> Forecasting</span>
+                                <span className='lg:whitespace-nowrap'><span className='text-[#009F95]'>Climate</span> Forecasting</span>
                                 <span>tool for Financial</span>
                                 <span>institutions in Africa</span>
                             </p>

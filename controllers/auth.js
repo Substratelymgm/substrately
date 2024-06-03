@@ -113,7 +113,7 @@ const requestPasswordReset = async (req, res, next) => {
 
         const resetToken = generateResetToken()
         user.resetToken = resetToken;
-        user.resetTokenExpiry = Date.now() + 60000;
+        user.resetTokenExpiry = Date.now() + 5 * 60 * 1000;
 
         await user.save();
         await sendResetToken(email, resetToken,next);
