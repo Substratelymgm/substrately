@@ -12,8 +12,10 @@
   "dependencies": {
     "@stripe/react-stripe-js": "^2.7.1",
     "@stripe/stripe-js": "^3.4.1",
-    "axios": "^1.6.8",
+    "@tensorflow/tfjs": "^4.20.0",
+    "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
+    "child_process": "^1.0.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "country-list": "^2.3.0",

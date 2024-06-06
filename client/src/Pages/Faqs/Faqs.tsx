@@ -47,7 +47,7 @@ const Faqs: React.FC = () => {
               {questions.map((question, index) => (
                 <div key={index} className=' pb-2'>
                   <div className='flex justify-between items-center cursor-pointer' onClick={() => toggleExpand(index)}>
-                    <h2 className='text-[28px] text-start sm:text-[32px] font-[600]'>{question}</h2>
+                    <h2 className='text-[1.4rem] text-start  font-[600]'>{question}</h2>
                     {expanded === index ? <AiOutlineMinus size={12} /> : <AiOutlinePlus size={12} />}
                   </div>
                   {expanded === index && (

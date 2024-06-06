@@ -27,8 +27,8 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
-      # - name: Copy web.config to build directory
-      #   run: cp web.config client/build/web.config
+      - name: Copy web.config to build directory
+        run: move client/web.config client/build/web.config
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3

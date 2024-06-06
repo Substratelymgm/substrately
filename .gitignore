@@ -47,3 +47,19 @@ ehthumbs.db
 
 
 steps.txt
+
+
+# Node.js
+node_modules
+npm-debug.log
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Miscellaneous
+.idea
+.vscode
+*.log
+
