@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
-const connectDB = (MONGO_URI) =>{  
+
+const connectDB = (MONGO_URI) =>{
 mongoose.connect(MONGO_URI)
 .then(()=>{
   console.log('connected to data base')

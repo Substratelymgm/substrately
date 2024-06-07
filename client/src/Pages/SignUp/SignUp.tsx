@@ -9,6 +9,7 @@ import { RegisterForm } from '../../utils/types';
 import PhoneNumberInput from '../../components/common/PhoneNumberInput/PhoneNumberInput';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { RootState } from '../../app/store/store';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 const SignUp: React.FC = () => {
   const [detectedCountryCode, setDetectedCountryCode] = useState('Select country code');
@@ -20,6 +21,17 @@ const SignUp: React.FC = () => {
     password: '',
     confirmPassword: ''
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
 
   const navigate = useNavigate();
   const { registerError, getRegisterStatus } = useAppSelector((state: RootState) => state.auth);
@@ -46,8 +58,6 @@ const SignUp: React.FC = () => {
       phoneNumber: detectedCountryCode
     }));
   }, [detectedCountryCode]);
-
-
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -152,12 +162,13 @@ const SignUp: React.FC = () => {
               <div className="text-red-400 text-[.8rem] font-[600] w-full">{errorObject?.email && errorObject.email}</div>
             </div>
 
-            <div>
+            <div className="relative">
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
               </label>
+              <div className='relative'>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
                 value={formData.password}
@@ -165,14 +176,21 @@ const SignUp: React.FC = () => {
                 placeholder="Enter your password"
                 className="w-full p-2 outline-none bg-gray-100  p-2 py-3 border border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-400 focus:ring-opacity-50"
               />
+              <div className="absolute h-full inset-y-0 right-0 pr-3 flex items-center cursor-pointer" onClick={togglePasswordVisibility}>
+                {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+              </div>
+              </div>
+              
               <div className="text-red-400 text-[.8rem] font-[600] w-full">{errorObject?.password && errorObject.password}</div>
             </div>
-            <div>
+
+            <div className="relative">
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
                 Confirm Password
               </label>
-              <input
-                type="password"
+             <div className="relative">
+             <input
+                type={showConfirmPassword ? "text" : "password"}
                 id="confirmPassword"
                 name="confirmPassword"
                 value={formData.confirmPassword}
@@ -180,6 +198,11 @@ const SignUp: React.FC = () => {
                 placeholder="Confirm your password"
                 className="w-full p-2 outline-none bg-gray-100  p-2 py-3 border border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-400 focus:ring-opacity-50"
               />
+                <div className="absolute h-full inset-y-0 right-0 pr-3 flex items-center cursor-pointer" onClick={toggleConfirmPasswordVisibility}>
+                {showConfirmPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+              </div>
+             </div>
+            
               <div className="text-red-400 text-[.8rem] font-[600] w-full">{errorObject?.confirmPassword && errorObject.confirmPassword}</div>
             </div>
           </div>
@@ -194,12 +217,12 @@ const SignUp: React.FC = () => {
           </div>
         </form>
         <div className='h-[3rem] w-full flex items-center justify-center text-red-500'>
-                        {errorObject?.error && errorObject?.error}
-                    </div>
+          {errorObject?.error && errorObject?.error}
+        </div>
                 
-                <div className="text-center text-sm ">
-                    <p>Don't have an account? <Link to="/login" className="font-medium text-[#009F95] text-indigo-600 hover:text-indigo-500">login</Link></p>
-                </div>
+        <div className="text-center text-sm ">
+          <p>Don't have an account? <Link to="/login" className="font-medium text-[#009F95] text-indigo-600 hover:text-indigo-500">login</Link></p>
+        </div>
       </div>
     </div>
   );

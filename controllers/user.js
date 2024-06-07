@@ -19,18 +19,8 @@ exports.addUser = async (req, res, next) => {
 exports.getUsers = async (req, res, next) => {
   try {
     // Fetch only users with the role 'user' and only retrieve their '_id'
-    const users = await User.find({ role: 'user' }, '_id');
-
-    // Create an array of user IDs
-    const userIds = users.map(user => user._id);
-
-    // Prepare the response containing user IDs and the total count
-    const response = {
-      count: userIds.length,
-      userIds: userIds
-    };
-
-    res.status(200).json(response);
+    const users = await User.find({ role: 'user' });
+    res.status(200).json(users);
   } catch (error) {
     next({ message: 'Internal server error', error: error })
   }

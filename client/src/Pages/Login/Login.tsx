@@ -7,12 +7,19 @@ import { login } from '../../app/store/auth/thunk';
 import { resetLoginError } from '../../app/store/auth/slice';
 import { ApiStatus } from '../../utils/types';
 import { ClipLoader } from 'react-spinners';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 const Login: React.FC = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -83,18 +90,21 @@ const Login: React.FC = () => {
                             />
                             <div className="text-red-400 text-[.8rem] font-[600] w-full">{errorObject?.email && errorObject.email}</div>
                         </div>
-                        <div>
+                        <div className="relative">
                             <label htmlFor="password" className="sr-only">Password</label>
                             <input
                                 id="password"
                                 name="password"
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 autoComplete="current-password"
                                 className="w-full bg-gray-100 p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
                                 placeholder="Password"
                                 value={formData.password}
                                 onChange={handleChange}
                             />
+                            <div className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer" onClick={togglePasswordVisibility}>
+                                {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+                            </div>
                             <div className="text-red-400 text-[.8rem] font-[600] w-full">{errorObject?.password && errorObject.password}</div>
                         </div>
                     </div>
