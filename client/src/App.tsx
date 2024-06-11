@@ -50,8 +50,7 @@ import { useAppDispatch } from './app/hooks';
 import { refresh } from './app/store/auth/thunk';
 import Payment from './Pages/Payment/Payment';
 import ForgotPassoword from './Pages/ForgotPassword/ForgotPassword';
-import VerifyCode from './Pages/VerifyCode/VerifyCode';
-import ResetPassoword from './Pages/ResetPassword/ResetPassword';
+import ResetPassword from './Pages/ResetPassword/ResetPassword';
 
 const LandingPageLayout: React.FC = () => {
   const [chatBoxActive, setChatBoxActive] = useState<boolean>(false);
@@ -161,8 +160,8 @@ function App() {
         <Route path="/signup" element={<PublicRoute element={<SignUp />} />} />
         <Route path="/login" element={<PublicRoute element={<Login />} />} />
         <Route path="/forgot-password" element={<PublicRoute element={<ForgotPassoword />} />} />
-        <Route path="/forgot-password/verify-code" element={<PublicRoute element={<VerifyCode />} />} />
-        <Route path="/forgot-password/set-new-password" element={<PublicRoute element={<ResetPassoword />} />} />
+        <Route path="/forgot-password/reset-password/:token" element={<PublicRoute element={<ResetPassword />} />} />
+
 
         <Route path='/payment' element={<PrivateRoute element={<Payment/>}/>}/>
 

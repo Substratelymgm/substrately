@@ -7,7 +7,7 @@ router.use(cookieParser());
 
 const {
     login, register, logout, refreshToken, googleRegister, googleLogin, facebookAuth,
-    requestPasswordReset, verifyResetToken, resetPassword
+    requestPasswordReset, resetPassword
 } = require('../controllers/auth');
 
 // Validators
@@ -30,14 +30,10 @@ const requestPasswordResetValidators = [
     body('email').isEmail().withMessage('Invalid email address').normalizeEmail()
 ];
 
-const verifyResetTokenValidators = [
-    body('email').isEmail().withMessage('Invalid email address').normalizeEmail(),
-    body('token').isLength({ min: 5, max: 5 }).withMessage('Token must be 5 digits long')
-];
 
 const resetPasswordValidators = [
-    body('email').isEmail().withMessage('Invalid email address'),
-    body('token').isLength({ min: 5, max: 5 }).withMessage('Token must be 5 digits long'),
+    body('email').isEmail().withMessage('Internal server error'),
+    body('token').isLength({ min: 5, max: 5 }).withMessage('Invalid token link'),
     body('newPassword')
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d{2})(?=\S+$).{8,100}$/).withMessage('Min of 8 characters, 1 uppercase, 1 lowercase, and 2 digits and no spaces'),
     body('confirmPassword').custom((value, { req }) => value === req.body.newPassword).withMessage('Passwords do not match'),
@@ -76,13 +72,6 @@ router.post('/request-password-reset', requestPasswordResetValidators, (req, res
     next();
 }, requestPasswordReset);
 
-router.post('/verify-reset-token', verifyResetTokenValidators, (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return next({ message: errors.array() });
-    }
-    next();
-}, verifyResetToken);
 
 router.post('/reset-password', resetPasswordValidators, (req, res, next) => {
     const errors = validationResult(req);

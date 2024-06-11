@@ -114,7 +114,7 @@ const requestPasswordReset = async (req, res, next) => {
 
         const resetToken = generateResetToken()
         user.resetToken = resetToken;
-        user.resetTokenExpiry = Date.now() + 5 * 60 * 1000;
+        user.resetTokenExpiry = Date.now() + 30 * 60 * 1000;
 
         await user.save();
         await sendResetToken(email, resetToken,next);
@@ -129,32 +129,6 @@ const requestPasswordReset = async (req, res, next) => {
     }
 };
 
-
-const verifyResetToken = async (req, res, next) => {
-    const { email, token } = req.body;
-    console.log(token,email)
-    try {
-        const user = await User.findOne({ email, resetToken: token, resetTokenExpiry: { $gt: Date.now() } });
-        if (!user) {
-            return next({
-                message: [{
-                    msg: 'Invalid or expired token',
-                    path: 'error'
-                }]
-            });
-        }
-
-        res.json({ message: 'Token verified' });
-    } catch (error) {
-        console.log(error);
-        next({
-            message: [{
-                msg: 'Internal Server error',
-                path: 'error'
-            }]
-        });
-    }
-};
 
 const resetPassword = async (req, res, next) => {
     const { email, token, newPassword } = req.body;
@@ -186,6 +160,7 @@ const resetPassword = async (req, res, next) => {
         });
     }
 };
+
 
 
 // Logout user
@@ -383,7 +358,6 @@ module.exports = {
     googleRegister,
     googleLogin,
     facebookAuth,
-    verifyResetToken,
     requestPasswordReset,
     resetPassword
 };

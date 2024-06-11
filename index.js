@@ -33,9 +33,6 @@ app.use('/api/user', userRoutes);
 // Error handling middleware
 app.use(errorHandler);
 
-app.get('/test', (req, res) => {
-  res.send('Hello from the minimal route!');
-});
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client', 'build')));

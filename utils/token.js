@@ -1,6 +1,9 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer');
+const fs = require('fs');
+const handlebars = require('handlebars');
+const path = require('path');
 
 const createAccessToken = (id) =>{
    return jwt.sign({id},process.env.ATS,{
@@ -28,50 +31,59 @@ const sendRefreshToken = (res, refreshtoken) => {
       secure: true, 
       sameSite: 'None', 
     });
-    
  };
 
 
-
-const generateResetToken = () => {
-    let token;
-    do {
-        token = parseInt(crypto.randomBytes(3).toString('hex'), 16) % 100000;
-    } while (token < 10000);
-    return token.toString();
+ const generateResetToken = (length = 5) => {
+    const characters = process.env.CHARACTER_SET;
+    const characterCount = characters.length;
+    let token = '';
+    const randomBytes = crypto.randomBytes(length);
+    for (let i = 0; i < length; i++) {
+        const randomIndex = randomBytes[i] % characterCount;
+        token += characters[randomIndex];
+    }
+    return token;
 };
 
 
- const sendResetToken = async (email, token,next) => {
-   console.log('Email:', process.env.EMAIL);
-   console.log('Email Password:', process.env.EMAIL_PASSWORD);
-   
-   const transporter = nodemailer.createTransport({
-       service: 'Gmail',
-       auth: {
-           user: process.env.EMAIL, 
-           pass: process.env.EMAIL_PASSWORD 
-       }
-   });
+const sendResetToken = async (email, token, next) => {
+    try {
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: process.env.EMAIL,
+                pass: process.env.EMAIL_PASSWORD
+            }
+        });
 
-   const mailOptions = {
-       from: process.env.EMAIL,
-       to: email,
-       subject: 'Password Reset Token',
-       text: `Your password reset token is ${token}`
-   };
+        const sourcePath = path.join(__dirname, '..', 'templates', 'resetPasswordTemplate.html');
+        if (!fs.existsSync(sourcePath)) {
+            throw new Error(`Template file not found: ${sourcePath}`);
+        }
 
-   try {
-       await transporter.sendMail(mailOptions);
-   } catch (error) {
-      console.log(error)
-      next({
-         message: [{
-             msg: 'Error sending token',
-             path: 'error'
-         }]
-     });
-   }
+        const source = fs.readFileSync(sourcePath, 'utf8');
+        const template = handlebars.compile(source);
+        const resetLink = `${process.env.RESET_LINK}/${token}`;
+        const htmlToSend = template({ resetLink });
+
+        const mailOptions = {
+            from: process.env.EMAIL,
+            to: email,
+            subject: 'Password Reset Request',
+            html: htmlToSend
+        };
+
+        await transporter.sendMail(mailOptions);
+    } catch (error) {
+        console.error('Error in sendResetToken:', error);
+        next({
+            message: [{
+                msg: 'Error sending token',
+                path: 'error'
+            }]
+        });
+    }
 };
 
 

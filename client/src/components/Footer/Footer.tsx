@@ -16,8 +16,8 @@ const Footbar = () => {
                     <Link to='faqs' className='text-gray-300 font-[400] cursor-pointer hover:underline hover:text-white duration-300'>FAQS</Link>
                 </nav>
                 <div className='flex flex-col md:flex-row items-center gap-[1rem]'>
-                    <Link to='signup' className='px-[1rem] py-[.3rem] duration-300 text-[#009F95] hover:text-white rounded-md hover:bg-[#007F75]'>Sign Up</Link>
-                    <Link to='login' className='px-[1rem] py-[.3rem] duration-300 rounded-md bg-[#009F95] hover:bg-[#007F75] text-white'>Login</Link>
+                    <Link to='signup' className='px-[1rem] border py-[.3rem] duration-300 text-[#009F95] hover:text-white rounded-md hover:bg-[#007F75]'>Sign Up</Link>
+                    <Link to='login' className='px-[1rem] border py-[.3rem] duration-300 text-[#009F95] hover:text-white rounded-md hover:bg-[#007F75]'>Sign Up</Link>
                 </div>
             </div>
         </div>

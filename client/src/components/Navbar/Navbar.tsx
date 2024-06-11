@@ -69,8 +69,9 @@ const Navbar = () => {
             ))}
           </div>
           <div className='flex gap-[.2rem] lg:gap-[.5rem] '>
-            <NavLink to='signup' className='px-[1rem] duration-300 text-[#009F95] hover:text-white rounded-md hover:bg-[#007F75] py-[.3rem]'>Sign Up</NavLink>
-            <NavLink to='login' className='px-[1rem] duration-300 rounded-md hover:bg-[#003F95] py-[.3rem] bg-[#009F95] hover:bg-[#007F75] text-white'>Login</NavLink>
+            <NavLink to='signup' className='px-[1rem] border duration-300 text-[#009F95] hover:text-white rounded-md hover:bg-[#007F75] py-[.3rem]'>Sign Up</NavLink>
+            <NavLink to='login' className='px-[1rem] border duration-300 text-[#009F95] hover:text-white rounded-md hover:bg-[#007F75] py-[.3rem]'>Login</NavLink>
+            
           </div>
         </div>
       </div>

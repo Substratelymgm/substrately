@@ -73,9 +73,9 @@ const Login: React.FC = () => {
                         Welcome, enter your details
                     </div>
                 </div>
-                <form className="mt-6 w-full space-y-6" onSubmit={handleSubmit}>
+                <form className="mt-6 w-full " onSubmit={handleSubmit}>
                     <input type="hidden" name="remember" defaultValue="true" />
-                    <div className="rounded-md w-full flex flex-col gap-[1rem] shadow-sm -space-y-px">
+                    <div className="rounded-md w-full flex flex-col ">
                         <div>
                             <label htmlFor="email" className="sr-only">Email address</label>
                             <input
@@ -83,21 +83,21 @@ const Login: React.FC = () => {
                                 name="email"
                                 type="email"
                                 autoComplete="email"
-                                className="w-full bg-gray-100 p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
+                                className="w-full p-2 outline-none bg-gray-100 py-3 border border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-400 focus:ring-opacity-50"
                                 placeholder="Email address"
                                 value={formData.email}
                                 onChange={handleChange}
                             />
-                            <div className="text-red-400 text-[.8rem] font-[600] w-full">{errorObject?.email && errorObject.email}</div>
+                            <div className="text-red-400 min-h-[1.5rem] text-[.8rem] font-[600] w-full">{errorObject?.email && errorObject.email}</div>
                         </div>
                         <div className="relative">
-                            <label htmlFor="password" className="sr-only">Password</label>
+                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
                             <input
                                 id="password"
                                 name="password"
                                 type={showPassword ? "text" : "password"}
                                 autoComplete="current-password"
-                                className="w-full bg-gray-100 p-2 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none hover:ring-2 hover:ring-blue-300"
+                                className="w-full p-2 outline-none bg-gray-100 py-3 border border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-400 focus:ring-opacity-50"
                                 placeholder="Password"
                                 value={formData.password}
                                 onChange={handleChange}
@@ -105,30 +105,30 @@ const Login: React.FC = () => {
                             <div className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer" onClick={togglePasswordVisibility}>
                                 {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
                             </div>
-                            <div className="text-red-400 text-[.8rem] font-[600] w-full">{errorObject?.password && errorObject.password}</div>
+                            <div className="text-red-400 min-h-[1.5rem]  text-[.8rem] font-[600] w-full">{errorObject?.password && errorObject.password}</div>
                         </div>
                     </div>
 
                     <div className="flex w-full text-center items-center justify-center">
                         <div className="text-sm">
-                            <Link to="/forgot-password" className="font-medium text-center text-[#384048] hover:text-indigo-500">Forgot your password?</Link>
+                            <Link to="/forgot-password" className="font-medium text-center text-[#009F95] hover:text-indigo-500">Forgot your password?</Link>
                         </div>
                     </div>
                     <div>
                         <button
                             type="submit"
-                            className="w-full p-2 bg-[#009F95] h-[60px] text-white rounded-md hover:bg-[#007F75] hover:shadow-lg focus:ring-2 focus:ring-[#007F75] focus:outline-none transition-all duration-300"
+                            className="w-full mt-7 p-2 bg-[#009F95] h-[60px] text-white rounded-md hover:bg-[#007F75] hover:shadow-lg focus:ring-2 focus:ring-[#007F75] focus:outline-none transition-all duration-300"
                         >
-                            {getLoginStatus === ApiStatus.loading ? <ClipLoader size={15} /> : 'Login'}
+                            {getLoginStatus === ApiStatus.loading ? <ClipLoader size={15} color="#ffffff" /> : 'Login'}
                         </button>
                     </div>
                 </form>
-                    <div className='h-[3rem] w-full flex items-center justify-center text-red-500'>
+                    <div className='min-h-[3rem] w-full flex items-center justify-center text-red-500'>
                         {errorObject?.error && errorObject?.error}
                     </div>
                 
                 <div className="text-center text-sm ">
-                    <p>Don't have an account? <Link to="/signup" className="font-medium text-[#009F95] text-indigo-600 hover:text-indigo-500">Sign up</Link></p>
+                    <p>Don't have an account? <Link to="/signup" className="font-medium text-[#009F95] hover:text-indigo-500">Sign up</Link></p>
                 </div>
 
             </div>

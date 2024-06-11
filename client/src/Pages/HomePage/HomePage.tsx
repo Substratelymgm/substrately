@@ -99,7 +99,7 @@ const HomePage: React.FC = () => {
                             Get In Touch
                         </div>
                     </div>
-                    <img className='w-full max-w-[699px]' src={Analysis} alt="" />
+                    <img className='w-full object-cover max-w-[699px]' src={Analysis} alt="" />
                 </div>
             </section>
 
