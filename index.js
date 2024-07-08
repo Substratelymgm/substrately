@@ -43,7 +43,6 @@ app.get('*', (req, res) => {
 });
 
 
-
 app.listen(port, (error) => {
   if (error) throw error;
   console.log(`Server is running on port ${port}`);

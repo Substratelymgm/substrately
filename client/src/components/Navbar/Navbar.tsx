@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import StarLogo from '../../assets/star-logo.svg';
 import { useAppSelector } from '../../app/hooks';
 
+
 const sidebarVariants = {
   open: { x: 0 },
   closed: { x: '-100%' },

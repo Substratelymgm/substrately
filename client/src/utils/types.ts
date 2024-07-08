@@ -70,3 +70,10 @@ export interface CountryInput {
   name: string;
 }
 
+
+
+export interface ReportItem {
+  id:string;
+  title: string;
+  image: string;
+}

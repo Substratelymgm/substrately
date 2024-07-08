@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 exports.protect = async(req,res,next) =>{
     //DESTRUCTURE AUTHRIZATION FROM REQ.HEADERS
    const {authorization} = req.headers
+  
 
    //IF AUTHORIZATION DOSENT EXIST AND IF IT DOSENT START WITH BEARER
    if(!authorization && !authorization?.startsWith('Bearer')){

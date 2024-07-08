@@ -1,39 +1,45 @@
 // SideBar.js
 import { useState } from 'react';
 import Logo from '../../assets/Logo.png'
-import { LayoutDashboard, MapPin, DollarSign, Calendar, ClipboardList, BarChart} from 'lucide-react';
 import RightArrow from '../../assets/icons/rightArrow.svg'
+import { BiTachometer } from "react-icons/bi";
+import { GoHome } from "react-icons/go";
+import { LuUsers } from "react-icons/lu";
+import { BiMessageRounded } from "react-icons/bi";
+import { IoSettingsOutline } from "react-icons/io5";
+import { MdLogout } from "react-icons/md";
+
 
 const navLinks = [
     {
-        name: "Farm Data Collection",
-        icon: LayoutDashboard,
-        path: "/farm-data-collection"
+        name: "Dashboard",
+        icon: GoHome,
+        path: "/dashboard"
     },
     {
-        name: "Satellite Data & Pricing",
-        icon: MapPin,
-        path: "/satellite-data-pricing"
+        name: "Report",
+        icon: BiTachometer,
+        path: "/reports"
     },
     {
-        name: "Contract Monitoring",
-        icon: Calendar,
-        path: "/contract-monitoring"
+        name: "Clients",
+        icon: LuUsers,
+        path: "/clients"
     },
     {
-        name: "Claims Management",
+        name: "My Team",
         icon: ClipboardList,
-        path: "/claims-management"
+        path: "/my-team"
     },
     {
-        name: "Business Analytics & Data Security",
-        icon: BarChart,
-        path: "/business-analytics-data-security"
+        name: "Message",
+        icon: BiMessageRounded,
+        path: "/message"
     },
     {
-        name: "Royal Exchange Pricing Engine",
-        icon: DollarSign,
-        path: "/royal-exchange-pricing-engine"
+        name: "Settings",
+        icon: IoSettingsOutline,
+        path: "/settings"
     }
 ];
 
