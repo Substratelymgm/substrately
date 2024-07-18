@@ -12,7 +12,7 @@ const PhoneNumberInput: React.FC<PhoneNumberInputProps> = (props) => {
     return (
         <div className="phone-input-container">
             <label className="label">
-                Phone Number:
+                Phone Number
                 <PhoneInput
                     country={'us'}
                     value={props.value}

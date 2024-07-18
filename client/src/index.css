@@ -3,42 +3,6 @@
 @tailwind utilities;
 
 
-
-
-
-.custom-scrollbar::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 4px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
-}
-
-
-.custom-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: #c1c1c1 #f1f1f1;
-}
-
-
-.custom-scrollbar {
-    -ms-overflow-style: none; 
-}
-
-.custom-scrollbar::-webkit-scrollbar {
-    display: none; 
-}
-
 .navbar {
     transition: background-color 0.3s ease;
   }
@@ -52,7 +16,35 @@ body {
     font-family: 'Inter', sans-serif;
   }
   
+  ::-webkit-scrollbar {
+    width: 9px;
+  }
   
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #e6e3e3;
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #dfd9d9;
+  }
+  
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+    60% {
+      transform: translateY(-5px);
+    }
+  }
 
 
 

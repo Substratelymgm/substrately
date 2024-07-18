@@ -8,6 +8,7 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import Logo from '../../assets/dash-logo.svg';
 import User from '../../assets/client.svg';
 import { useAppSelector } from '../../app/hooks';
+import { useNavigate } from 'react-router-dom';
 
 const sidebarVariants = {
   open: { x: 0 },
@@ -17,6 +18,7 @@ const sidebarVariants = {
 const DashNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate()
 
   const { user } = useAppSelector(state => state.auth);
 
@@ -51,7 +53,7 @@ const DashNav = () => {
   return (
     <div className={`border-b dash-nav sticky top-0 z-[900] h-[5rem] flex items-center transition-colors duration-300 ${scrolled ? 'bg-[#327971]' : 'bg-[#3B8F85]'}`}>
       <div className="w-full flex items-center justify-between md:justify-start gap-[2rem] p-[1rem] max-w-[1300px] mx-auto">
-        <div className='flex items-center gap-[.5rem]'>
+        <div onClick={()=>navigate("/")} className='flex cursor-pointer items-center gap-[.5rem]'>
           <img src={Logo} alt="Logo" />
           <span className='text-white font-[500] text-[1.4rem]'>Substrately</span>
         </div>
@@ -64,7 +66,7 @@ const DashNav = () => {
             <input className='w-full text-white h-full outline-none bg-[#327971]' type="text" />
           </div>
           <div className="flex items-center gap-[1rem]">
-            <HiOutlineEnvelope className='text-white text-lg hover:text-gray-300 cursor-pointer' />
+            <HiOutlineEnvelope onClick={()=>navigate('/message')} className='text-white text-lg hover:text-gray-300 cursor-pointer' />
             <div className='w-[2rem] h-[2rem] rounded-full cursor-pointer bg-white flex items-center justify-center duration-300 hover:bg-gray-100'>
               <IoIosNotificationsOutline />
             </div>

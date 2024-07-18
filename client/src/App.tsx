@@ -102,7 +102,7 @@ const MainLayout = ({ toggleSidebar, isSidebarVisible }: { toggleSidebar: () => 
 
   return (
     true ?
-      <div className='w-full relative bg-[#F8FAFC]  custom-scrollbar h-screen overflow-y-auto'>
+      <div className='w-full relative bg-[#F8FAFC] h-screen overflow-y-auto'>
         <DashNav />
         <div className="flex gap-[1.5rem]  sm:p-[2rem]">
           <NavigationBar />

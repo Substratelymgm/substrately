@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLoadScript, GoogleMap, Marker} from '@react-google-maps/api';
+import { useLoadScript, GoogleMap, Marker } from '@react-google-maps/api';
 import WindSpeed from '../../assets/wind-speed.svg';
 import Humidity from '../../assets/Humidity.svg';
 import DewPoint from '../../assets/dew-point.svg';
@@ -14,7 +14,11 @@ import Pdf from '../../assets/pdf.svg';
 import Csv from '../../assets/csv.svg';
 import { LiaTimesSolid } from "react-icons/lia";
 import { FaSearch } from 'react-icons/fa';
-import Exclamation from '../../assets/exclamation.png'
+import LineChart from '../../components/LineChart/LineChart';
+import CircleApostrophe from '../../assets/circle-apostrophe.svg'
+import { ChartData } from 'chart.js';
+import WeatherMap from '../../components/WeatherMap/WeatherMap';
+import ReportList from '../../components/ReportList/ReportList';
 
 const libraries: any = ['places'];
 
@@ -29,32 +33,56 @@ const center: google.maps.LatLngLiteral = {
 };
 
 interface ReportItem {
-  id:string;
+  id: string;
   title: string;
   image: string;
 }
+
+const fakeGrowthChartData: ChartData = {
+  labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
+  datasets: [
+      {
+          label: 'Growth',
+          data: [65, 59, 80, 81, 56, 55, 40, 10],
+          fill: false,
+          backgroundColor: '#25CD2566',
+          borderColor: '#3B8F85',
+          tension:0.4,
+      },
+  ],
+};
+
+const options = [
+  { id: '1', month: 'Daily' },
+  { id: '2', month: 'Monthly' },
+  { id: '3', month: 'Yearly' },
+];
 
 const Reports: React.FC = () => {
   const [isLocationModalOpen, setLocationModalOpen] = useState(false);
   const [isExportModalOpen, setExportModalOpen] = useState(false);
   const [isReportItemsModalOpen, setReportItemsModalOpen] = useState(false);
-  const [selectedReport,setSelectedReport] = useState<ReportItem>({id:'',title:'',image:''})
+  const [selectedReport, setSelectedReport] = useState<ReportItem>({ id: '', title: '', image: '' })
   const [location, setLocation] = useState<google.maps.LatLngLiteral>(center);
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: import.meta.env.REACT_APP_GOOGLE_MAPS_API_KEY || '',
     libraries,
   });
 
+  const [selectedOptionGrowthChart, setSelectedOptionGrowthChart] = useState<string>('Daily');
+  const [growthChartData, setGrowthChartData] = useState<ChartData>(fakeGrowthChartData);
+  const [growthDropDownActive, setGrowthDropDownActive] = useState(false);
+
   const reportItems: ReportItem[] = [
-    {id:'1', title: 'Wind Speed', image: WindSpeed },
-    {id:'2', title: 'Humidity', image: Humidity },
-    { id:'3', title: 'Dew Point', image: DewPoint },
-    { id:'4',title: 'Precipitation', image: Precipitation },
-    { id:'5',title: 'Cloud Cover', image: CloudCover },
-    { id:'6',title: 'Wind Direction', image: WindDirection }
+    { id: '1', title: 'Wind Speed', image: WindSpeed },
+    { id: '2', title: 'Humidity', image: Humidity },
+    { id: '3', title: 'Dew Point', image: DewPoint },
+    { id: '4', title: 'Precipitation', image: Precipitation },
+    { id: '5', title: 'Cloud Cover', image: CloudCover },
+    { id: '6', title: 'Wind Direction', image: WindDirection }
   ];
 
-  const openLocationModal = ()=> {
+  const openLocationModal = () => {
     setLocationModalOpen(true);
   }
   const closeLocationModal = () => {
@@ -82,11 +110,60 @@ const Reports: React.FC = () => {
     });
   };
 
-  const handleViewReport = (item:ReportItem) => {
+  const handleViewReport = (item: ReportItem) => {
     setSelectedReport(item)
     setReportItemsModalOpen(true)
   }
   
+
+  const handleMonthChange = (month: string, type: string) => {
+    if (type === 'rainfall') {
+        setSelectedOptionGrowthChart(month);
+        updateGrowthChartData(month);
+        return
+    }
+    if (type === 'growth') {
+        setSelectedOptionGrowthChart(month);
+        updateGrowthChartData(month);
+        return
+    }
+
+};
+
+const updateGrowthChartData = (selectedOption: string) => {
+  let newData;
+  switch (selectedOption) {
+      case 'Daily':
+          newData = [12, 19, 3, 5, 2, 3, 7, 8, 6, 7, 12, 16];
+          break;
+      case 'Yearly':
+          newData = [65, 59, 80, 81, 56, 55, 40, 10, 40, 80, 50, 20];
+          break;
+      case 'Monthly':
+          newData = [750, 600, 450, 500, 600, 700, 800, 650, 500, 450, 300, 200];
+          break;
+      default:
+          newData = fakeGrowthChartData.datasets[0].data;
+  }
+
+  setGrowthChartData({
+      ...fakeGrowthChartData,
+      datasets: [
+          {
+              ...fakeGrowthChartData.datasets[0],
+              data: newData,
+              backgroundColor: '#25CD2566',
+              borderColor: '#3B8F85',
+              tension:0.4,
+          }
+      ]
+  });
+};
+
+
+
+
+
 
   if (loadError) return <div>Error loading maps</div>;
   if (!isLoaded) return <div>Loading Maps</div>;
@@ -154,7 +231,7 @@ const Reports: React.FC = () => {
             <LiaTimesSolid onClick={closeReportItemsModal} className='cursor-pointer' />
           </div>
           <div className='p-2 mt-[1rem]'>
-          <img className='w-full' src={selectedReport.image} alt="" />
+            <img className='w-full' src={selectedReport.image} alt="" />
           </div>
           <div className="w-full flex items-center justify-center mb-[2rem] mt-[1rem]">
             <button className='p-2 bg-[#3B8F85] w-full max-w-[223px] mx-auto text-white p-2 rounded-md' onClick={closeExportModal}>Close</button>
@@ -170,24 +247,58 @@ const Reports: React.FC = () => {
             <button className='bg-[#417CD7] text-[14px] p-2 rounded-md hover:bg-[#5A92E0]' onClick={openExportModal}>Export Report</button>
           </span>
         </div>
-        <div className="grid grid-cols-1 mt-[1.5rem] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-          {reportItems.map((item:ReportItem, index) => (
-            <div onClick={()=>handleViewReport(item)} key={index} className="p-4 hover:scale-[105%] duration-300 border bg-white rounded-md gap-[1rem] flex flex-col items-center">
-              <div className="flex w-full justify-between items-center">
-                <div className="text-center flex items-center gap-[.5rem] font-semibold">
-                  <span className='text-[10px] text-[#1A1A1A]'>{item.title}</span>
-                  <img src={Exclamation} alt="icon" />
-                </div>
-                <div className="w-[30px] h-[30px] rounded-full flex items-center justify-center hover:bg-gray-100 cursor-pointer duration-300">
-                  <HiDotsHorizontal className="text-gray-500" />
-                </div>
+        
+       <ReportList reportItems={reportItems}/>
+
+        <div className='bg-white p-[1rem] px-[2rem] mt-[2rem]'>
+          <div className="flex items-center justify-between">
+            <span className="font-[700] flex text-[#1A1A1A] text-[16px] gap-[.3rem] mb-4 text-[16px] text-[#1A1A1A]">Rain<img src={CircleApostrophe} alt="" /></span>
+            <div className="custom-dropdown">
+              <div className="relative">
+                <button
+                  className="border text-gray-600 text-[11px]  py-2 px-4 rounded inline-flex items-center"
+                  onClick={() => setGrowthDropDownActive(!growthDropDownActive)}
+                >
+                  <span >{selectedOptionGrowthChart}</span>
+                  <svg
+                    className="fill-current h-4 w-4 ml-2"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M9.293 13.293a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414L10 10.586l-4.293-4.293a1 1 0 00-1.414 1.414l5 5z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+                {growthDropDownActive && (
+                  <div className="absolute right-0 mt-2 w-48 max-h-[10rem] overflow-y-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                    {options.map((option) => (
+                      <button
+                        key={option.id}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                        onClick={() => {
+                          handleMonthChange(option.month, 'growth');
+                          setGrowthDropDownActive(false);
+                        }}
+                      >
+                        {option.month}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
-              <img src={item.image} alt={item.title} className="w-full object-cover mb-2" />
+
             </div>
-          ))}
+          </div>
+          <div className="w-full h-[20rem]">
+          <LineChart chartData={growthChartData} />
+          </div>
         </div>
-        <img className="mt-[1rem]" src={ChartImpression} alt="" />
-        <img src={Weather} className="mt-[1rem]" alt="" />
+        {/* <img className="mt-[1rem]" src={ChartImpression} alt="" /> */}
+        {/* <img src={Weather} className="mt-[1rem]" alt="" /> */}
+        <WeatherMap/>
       </div>
     </>
   );

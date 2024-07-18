@@ -12,6 +12,11 @@ import ClientReports from '../../components/ClientReport/ClientReport';
 
 const Profile = () => {
     const [isClientAddModalOpen, setClientAddModalOpen] = useState(false)
+    const [deleteClientModal,setDeleteClientModal] = useState(false)
+
+    const toggleDeleteModal = () => setDeleteClientModal(!deleteClientModal)
+
+
     const closeClientAddModal = () => {
         setClientAddModalOpen(false);
     }
@@ -19,6 +24,18 @@ const Profile = () => {
 
     return (
         <div>
+
+            <Modal isOpen={deleteClientModal} onClose={toggleDeleteModal}>
+                <div className='bg-white p-4 flex gap-4 flex-col items-center justify-center w-full max-w-[556px] rounded-lg min-h-[290px]'>
+                    <h1>Are you sure you want to Delete this client</h1>
+                    <div className="flex gap-[1rem] w-full">
+                        <button onClick={toggleDeleteModal} className='flex-1 p-2 py-3 hover:bg-[#326F6A] duration-300 rounded-md text-white font-[500] bg-[#3B8F85]'>No</button>
+                        <button onClick={toggleDeleteModal} className='flex-1 p-2 py-3 hover:bg-[#326F6A] duration-300 rounded-md text-white font-[500] bg-[#3B8F85]'>Yes</button>
+                    </div>
+                    
+                </div>
+            </Modal>
+
             <Modal isOpen={isClientAddModalOpen} onClose={closeClientAddModal}>
                 <div className='bg-white w-full max-w-[556px] rounded-lg min-h-[290px]'>
                     <div className="w-full p-2 h-[4rem] border-b flex items-center justify-between">
@@ -28,10 +45,14 @@ const Profile = () => {
 
                 </div>
             </Modal>
+
+
             <div className="flex p-[1rem] flex-wrap  bg-white border min-h-[83px] sm:rounded-[16px] items-center justify-between">
                 <span className='text-[22px] font-[500]'>Client</span>
                 <span className='bg-[#3B8F85] flex items-center p-[.4rem] text-white gap-[1rem] duration-300 cursor-pointer  w-[max-content] sm:w-full max-w-[135px] text-[14px] rounded-md hover:bg-[#59B6AC]'><Users className='text-[10px]' /> <span className='hidden sm:flex'>Add Client</span></span>
             </div>
+
+
             <div className='p-[1rem] sm:p-0'>
                 <h1 className='font-[600] mb-[2rem] sm:p-0 mt-[2rem] text-[24px]'>User Profile</h1>
                 <div className="flex flex-col gap-[1.5rem] lg:flex-row">
@@ -77,7 +98,7 @@ const Profile = () => {
                             <button className='outline-none w-full p-[1rem] text-white border-none bg-[#D4AF37] text-[13px] rounded-[6px] hover:bg-[#b99730] transition duration-300'>
                                 Meteorological Records
                             </button>
-                            <button className='outline-none w-full mt-[1rem] border p-[1rem] border-[#FF4159] bg-white text-[13px] rounded-[6px] hover:bg-[#ffebed] hover:border-[#ff2941] transition duration-300'>
+                            <button onClick={toggleDeleteModal} className='outline-none w-full mt-[1rem] border p-[1rem] border-[#FF4159] bg-white text-[13px] rounded-[6px] hover:bg-[#ffebed] hover:border-[#ff2941] transition duration-300'>
                                 Delete Client
                             </button>
                         </div>

@@ -48,6 +48,7 @@ const sendRefreshToken = (res, refreshtoken) => {
 
 
 const sendResetToken = async (email, token, next) => {
+      console.log(process.env.EMAIL_PASSWORD)
     try {
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
